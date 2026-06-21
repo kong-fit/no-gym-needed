@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>No Gym Needed — Real Workouts for Small Spaces</title>
+<meta name="description" content="Strength, mobility, and conditioning workouts that need nothing but floor space. No equipment, no membership, no excuses.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;500;600;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --charcoal:#1C1B1A;
+    --bone:#F2EDE4;
+    --clay:#C8552C;
+    --clay-dark:#A8431F;
+    --sage:#8A9A7E;
+    --gray:#6B6862;
+    --line: rgba(28,27,26,0.12);
+    --line-bone: rgba(242,237,228,0.16);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bone);
+    color:var(--charcoal);
+    font-family:'Inter',sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px;}
+
+  h1,h2,h3,.display{
+    font-family:'Archivo Black',sans-serif;
+    text-transform:uppercase;
+    letter-spacing:-0.01em;
+    line-height:0.95;
+  }
+
+  /* Focus visibility */
+  a:focus-visible, button:focus-visible{
+    outline:3px solid var(--clay);
+    outline-offset:3px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important; animation-iteration-count:1 !important;}
+    .reveal{opacity:1 !important; transform:none !important;}
+  }
+
+  /* ===== ANIMATION SYSTEM ===== */
+  @keyframes fadeUp{
+    from{opacity:0; transform:translateY(22px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+  @keyframes fadeIn{
+    from{opacity:0;}
+    to{opacity:1;}
+  }
+  @keyframes scaleIn{
+    from{opacity:0; transform:scale(0.94);}
+    to{opacity:1; transform:scale(1);}
+  }
+  @keyframes drawDash{
+    from{stroke-dashoffset:240;}
+    to{stroke-dashoffset:0;}
+  }
+  @keyframes pulseBorder{
+    0%, 100%{border-color:var(--clay); background:rgba(200,85,44,0.06);}
+    50%{border-color:#E08056; background:rgba(200,85,44,0.12);}
+  }
+  @keyframes countUp{
+    from{opacity:0; transform:translateY(8px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+
+  /* Hero load sequence — staggered */
+  .hero-anim-1{opacity:0; animation:fadeUp 0.7s cubic-bezier(.22,1,.36,1) 0.1s forwards;}
+  .hero-anim-2{opacity:0; animation:fadeUp 0.7s cubic-bezier(.22,1,.36,1) 0.25s forwards;}
+  .hero-anim-3{opacity:0; animation:fadeUp 0.7s cubic-bezier(.22,1,.36,1) 0.4s forwards;}
+  .hero-anim-4{opacity:0; animation:fadeUp 0.7s cubic-bezier(.22,1,.36,1) 0.55s forwards;}
+  .hero-anim-diagram{opacity:0; animation:scaleIn 0.8s cubic-bezier(.22,1,.36,1) 0.3s forwards;}
+  .hero-anim-stats .stat{opacity:0; animation:countUp 0.6s ease-out forwards;}
+  .hero-anim-stats .stat:nth-child(1){animation-delay:0.7s;}
+  .hero-anim-stats .stat:nth-child(2){animation-delay:0.8s;}
+  .hero-anim-stats .stat:nth-child(3){animation-delay:0.9s;}
+  .hero-anim-stats .stat:nth-child(4){animation-delay:1.0s;}
+
+  /* Scroll reveal */
+  .reveal{
+    opacity:0; transform:translateY(28px);
+    transition:opacity 0.7s cubic-bezier(.22,1,.36,1), transform 0.7s cubic-bezier(.22,1,.36,1);
+  }
+  .reveal.is-visible{opacity:1; transform:translateY(0);}
+  .reveal-stagger.is-visible .wcard:nth-child(1){transition-delay:0.05s;}
+  .reveal-stagger.is-visible .wcard:nth-child(2){transition-delay:0.12s;}
+  .reveal-stagger.is-visible .wcard:nth-child(3){transition-delay:0.19s;}
+  .reveal-stagger.is-visible .wcard:nth-child(4){transition-delay:0.26s;}
+  .reveal-stagger.is-visible .wcard:nth-child(5){transition-delay:0.33s;}
+  .reveal-stagger.is-visible .wcard:nth-child(6){transition-delay:0.4s;}
+  .reveal-stagger .wcard{
+    opacity:0; transform:translateY(20px);
+    transition:opacity 0.6s cubic-bezier(.22,1,.36,1), transform 0.6s cubic-bezier(.22,1,.36,1), background 0.15s;
+  }
+  .reveal-stagger.is-visible .wcard{opacity:1; transform:translateY(0);}
+
+  /* Floor square pulse, ties to the "this is your space" concept */
+  .floor-square{animation:pulseBorder 3.5s ease-in-out 1.1s infinite;}
+
+
+  /* ===== NAV ===== */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:var(--bone);
+    border-bottom:1px solid var(--line);
+  }
+  nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 28px;
+    max-width:1180px; margin:0 auto;
+  }
+  .logo{
+    font-family:'Archivo Black',sans-serif;
+    font-size:18px;
+    text-transform:uppercase;
+    letter-spacing:-0.01em;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .logo .dot{width:9px;height:9px;background:var(--clay);display:inline-block;}
+  .navlinks{display:flex; gap:32px; font-size:14px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em;}
+  .navlinks a{padding-bottom:2px; border-bottom:2px solid transparent; transition:border-color .15s;}
+  .navlinks a:hover{border-color:var(--clay);}
+  @media (max-width:720px){ .navlinks{display:none;} }
+
+  /* ===== HERO ===== */
+  .hero{
+    padding:64px 0 0;
+    border-bottom:1px solid var(--line);
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:48px;
+    align-items:center;
+  }
+  @media (max-width:880px){ .hero-grid{grid-template-columns:1fr;} }
+
+  .eyebrow{
+    font-size:13px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--clay); margin-bottom:18px; display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{content:''; width:24px; height:2px; background:var(--clay); display:inline-block;}
+
+  .hero h1{
+    font-size:clamp(40px, 6.2vw, 76px);
+    margin-bottom:24px;
+  }
+  .hero h1 .accent{color:var(--clay);}
+  .hero p.lede{
+    font-size:18px; color:var(--gray); max-width:46ch; margin-bottom:32px;
+  }
+  .hero-cta{display:flex; gap:16px; flex-wrap:wrap;}
+  .btn{
+    display:inline-flex; align-items:center; gap:10px;
+    padding:15px 28px;
+    font-size:14px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em;
+    border:2px solid var(--charcoal);
+    transition:transform .15s, background .15s, color .15s;
+  }
+  .btn-primary{background:var(--charcoal); color:var(--bone);}
+  .btn-primary:hover{background:var(--clay); border-color:var(--clay); transform:translateY(-2px);}
+  .btn-ghost{background:transparent; color:var(--charcoal);}
+  .btn-ghost:hover{transform:translateY(-2px); border-color:var(--clay); color:var(--clay);}
+
+  /* floor-space diagram, the signature element */
+  .floor-diagram{
+    position:relative;
+    background:var(--charcoal);
+    aspect-ratio:1/1;
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden;
+  }
+  .floor-grid{
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(var(--line-bone) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-bone) 1px, transparent 1px);
+    background-size: 12.5% 12.5%;
+  }
+  .floor-square{
+    position:relative;
+    width:62%; height:62%;
+    border:2px dashed var(--clay);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center;
+    background:rgba(200,85,44,0.06);
+  }
+  .floor-square .big{
+    font-family:'Archivo Black',sans-serif;
+    font-size:clamp(36px,5vw,56px);
+    color:var(--bone);
+    line-height:0.9;
+  }
+  .floor-square .unit{
+    font-size:12px; color:var(--sage); text-transform:uppercase; letter-spacing:0.1em; margin-top:8px; font-weight:700;
+  }
+  .corner-label{
+    position:absolute; font-size:11px; color:var(--line-bone); text-transform:uppercase; letter-spacing:0.08em; font-weight:600;
+  }
+  .corner-label.tl{top:16px; left:16px; color:rgba(242,237,228,0.45);}
+  .corner-label.br{bottom:16px; right:16px; color:rgba(242,237,228,0.45);}
+
+  .hero-stats{
+    display:flex; gap:0; margin-top:0; border-top:1px solid var(--line);
+  }
+  .hero-stats .stat{
+    flex:1; padding:24px 28px; border-right:1px solid var(--line);
+  }
+  .hero-stats .stat:last-child{border-right:none;}
+  .hero-stats .num{font-family:'Archivo Black',sans-serif; font-size:28px;}
+  .hero-stats .label{font-size:12px; color:var(--gray); text-transform:uppercase; letter-spacing:0.06em; margin-top:4px;}
+
+  /* ===== SECTION HEADERS ===== */
+  .section{padding:80px 0;}
+  .section-head{
+    display:flex; justify-content:space-between; align-items:flex-end;
+    margin-bottom:44px; gap:24px; flex-wrap:wrap;
+    border-bottom:1px solid var(--line); padding-bottom:24px;
+  }
+  .section-head h2{font-size:clamp(28px,4vw,42px);}
+  .section-head .sub{color:var(--gray); font-size:15px; max-width:38ch;}
+
+  /* ===== WORKOUT CARDS ===== */
+  .workout-grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  @media (max-width:880px){ .workout-grid{grid-template-columns:1fr;} }
+  .wcard{
+    background:var(--bone); padding:32px; transition:background .15s, transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s;
+    display:flex; flex-direction:column; min-height:280px;
+    color:inherit; text-decoration:none;
+  }
+  .wcard:hover{transform:translateY(-4px); box-shadow:0 12px 24px -8px rgba(28,27,26,0.18);}
+  .wcard:hover{background:#fff;}
+  .wcard .tags{display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap;}
+  .tag{
+    font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em;
+    padding:5px 10px; border:1px solid var(--charcoal);
+  }
+  .tag.space{border-color:var(--sage); color:var(--sage);}
+  .tag.time{border-color:var(--clay); color:var(--clay);}
+  .wcard h3{font-size:22px; margin-bottom:12px; text-transform:none; letter-spacing:0;}
+  .wcard p{color:var(--gray); font-size:14px; flex-grow:1;}
+  .wcard .go{
+    margin-top:20px; font-size:13px; font-weight:700; text-transform:uppercase;
+    display:flex; align-items:center; gap:6px; color:var(--charcoal);
+  }
+  .wcard:hover .go{color:var(--clay);}
+
+  /* ===== HOW IT WORKS ===== */
+  .how{background:var(--charcoal); color:var(--bone);}
+  .how .section-head{border-bottom-color:var(--line-bone);}
+  .how .section-head .sub{color:rgba(242,237,228,0.6);}
+  .how-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:40px;}
+  @media (max-width:880px){ .how-grid{grid-template-columns:1fr; gap:32px;} }
+  .how-item .mark{
+    font-family:'Archivo Black',sans-serif; font-size:14px; color:var(--clay); margin-bottom:16px;
+  }
+  .how-item h3{font-size:20px; text-transform:none; letter-spacing:0; margin-bottom:10px; font-family:'Archivo',sans-serif; font-weight:700;}
+  .how-item p{color:rgba(242,237,228,0.65); font-size:14px;}
+
+  /* ===== GEAR (affiliate-ready) ===== */
+  .gear-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:24px;}
+  @media (max-width:880px){ .gear-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:520px){ .gear-grid{grid-template-columns:1fr;} }
+  .gcard{border:1px solid var(--line); padding:24px; background:#fff; transition:transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s, border-color .25s;}
+  .gcard:hover{transform:translateY(-3px); box-shadow:0 10px 20px -10px rgba(28,27,26,0.18); border-color:var(--clay);}
+  .gcard .thumb{
+    aspect-ratio:1; background:var(--bone); border:1px solid var(--line); margin-bottom:16px;
+    display:flex; align-items:center; justify-content:center; color:var(--gray); font-size:12px;
+  }
+  .gcard h4{font-size:15px; margin-bottom:6px;}
+  .gcard .price{color:var(--clay); font-weight:700; font-size:14px; margin-bottom:12px;}
+  .gcard p.note{font-size:13px; color:var(--gray);}
+
+  /* ===== NEWSLETTER ===== */
+  .signup{
+    background:var(--sage); padding:56px 0; text-align:center;
+  }
+  .signup h2{font-size:clamp(24px,3.4vw,34px); margin-bottom:12px; color:var(--charcoal);}
+  .signup p{color:var(--charcoal); opacity:0.75; margin-bottom:28px;}
+  .signup-form{display:flex; gap:12px; max-width:440px; margin:0 auto; flex-wrap:wrap; justify-content:center;}
+  .signup-form input{
+    flex:1; min-width:220px; padding:14px 16px; border:2px solid var(--charcoal); background:var(--bone); font-family:'Inter'; font-size:14px;
+  }
+  .signup-form input:focus-visible{outline:3px solid var(--charcoal); outline-offset:2px;}
+  .signup-form button{
+    padding:14px 24px; background:var(--charcoal); color:var(--bone); border:2px solid var(--charcoal);
+    font-weight:700; text-transform:uppercase; font-size:13px; letter-spacing:0.05em; cursor:pointer;
+  }
+  .signup-form button:hover{background:var(--clay); border-color:var(--clay);}
+
+  /* ===== FOOTER ===== */
+  footer{background:var(--charcoal); color:rgba(242,237,228,0.5); padding:48px 0 28px;}
+  .footer-grid{display:flex; justify-content:space-between; flex-wrap:wrap; gap:32px; padding-bottom:32px; border-bottom:1px solid var(--line-bone);}
+  .footer-col h5{color:var(--bone); font-size:12px; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:14px;}
+  .footer-col a{display:block; font-size:14px; margin-bottom:8px; color:rgba(242,237,228,0.6);}
+  .footer-col a:hover{color:var(--clay);}
+  .footer-bottom{display:flex; justify-content:space-between; padding-top:20px; font-size:12px; flex-wrap:wrap; gap:8px;}
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <a href="index.html" class="logo"><span class="dot"></span>No Gym Needed</a>
+    <div class="navlinks">
+      <a href="#workouts">Workouts</a>
+      <a href="#gear">Gear</a>
+      <a href="#how">How It Works</a>
+    </div>
+    <a href="#signup" class="btn btn-primary" style="padding:10px 20px; font-size:12px;">Get the plan</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow hero-anim-1">Zero equipment · Zero membership</div>
+        <h1 class="hero-anim-2">Train hard<br>in <span class="accent">six feet</span><br>of floor.</h1>
+        <p class="lede hero-anim-3">Strength, conditioning, and mobility workouts built for the space you already have. No gym, no gear, no excuses about either.</p>
+        <div class="hero-cta hero-anim-4">
+          <a href="#workouts" class="btn btn-primary">Start a workout</a>
+          <a href="#how" class="btn btn-ghost">How it works</a>
+        </div>
+      </div>
+      <div class="floor-diagram hero-anim-diagram">
+        <div class="floor-grid"></div>
+        <span class="corner-label tl">Required space</span>
+        <span class="corner-label br">No.07 / Full Body</span>
+        <div class="floor-square">
+          <div class="big">6×6</div>
+          <div class="unit">Feet — that's it</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-stats hero-anim-stats">
+      <div class="stat"><div class="num">120+</div><div class="label">Workouts</div></div>
+      <div class="stat"><div class="num">0</div><div class="label">Equipment required</div></div>
+      <div class="stat"><div class="num">8–30</div><div class="label">Minutes each</div></div>
+      <div class="stat"><div class="num">100%</div><div class="label">Free to start</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="workouts">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2>Pick your workout</h2>
+      <p class="sub">Sorted by the two things that actually decide whether you'll do it: time and space.</p>
+    </div>
+    <div class="workout-grid reveal-stagger">
+
+      <a class="wcard" href="workouts/apartment-burner.html">
+        <div class="tags"><span class="tag space">6×6 ft</span><span class="tag time">12 min</span></div>
+        <h3>The Apartment Burner</h3>
+        <p>A quiet, no-jumping full-body circuit for thin floors and downstairs neighbors. Strength and sweat without a single thud.</p>
+        <div class="go">Start workout →</div>
+      </a>
+
+      <a class="wcard" href="workouts/hotel-room-reset.html">
+        <div class="tags"><span class="tag space">4×4 ft</span><span class="tag time">8 min</span></div>
+        <h3>Hotel Room Reset</h3>
+        <p>Built for the gap between checking in and your first meeting. No mat, no noise, no excuse to skip it on the road.</p>
+        <div class="go">Start workout →</div>
+      </a>
+
+      <a class="wcard" href="workouts/lower-body-foundation.html">
+        <div class="tags"><span class="tag space">8×8 ft</span><span class="tag time">25 min</span></div>
+        <h3>Lower Body Foundation</h3>
+        <p>Squat and lunge patterns that build real leg strength using nothing but your bodyweight and gravity.</p>
+        <div class="go">Start workout →</div>
+      </a>
+
+      <a class="wcard" href="workouts/push-pull-upper-body.html">
+        <div class="tags"><span class="tag space">6×6 ft</span><span class="tag time">15 min</span></div>
+        <h3>Push-Pull Upper Body</h3>
+        <p>Push-ups, planks, and pulling substitutes that train your whole upper body without a single dumbbell.</p>
+        <div class="go">Start workout →</div>
+      </a>
+
+      <a class="wcard" href="workouts/morning-mobility.html">
+        <div class="tags"><span class="tag space">5×5 ft</span><span class="tag time">10 min</span></div>
+        <h3>Morning Mobility</h3>
+        <p>A slow, deliberate sequence to undo a night of sleep and a day of sitting. Do this before coffee.</p>
+        <div class="go">Start workout →</div>
+      </a>
+
+      <a class="wcard" href="workouts/cardio-without-cardio-gear.html">
+        <div class="tags"><span class="tag space">6×6 ft</span><span class="tag time">20 min</span></div>
+        <h3>Cardio Without Cardio Gear</h3>
+        <p>Interval-based conditioning that gets your heart rate up without a treadmill, bike, or rower in sight.</p>
+        <div class="go">Start workout →</div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<section class="how section" id="how">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2>How this actually works</h2>
+      <p class="sub">No app to download. No account required to start.</p>
+    </div>
+    <div class="how-grid reveal">
+      <div class="how-item">
+        <div class="mark">01</div>
+        <h3>Measure your space</h3>
+        <p>Most workouts here fit in 6×6 feet — about the size of a yoga mat with room to swing your arms. Clear it once and you're set.</p>
+      </div>
+      <div class="how-item">
+        <div class="mark">02</div>
+        <h3>Pick by time, not mood</h3>
+        <p>Every workout is tagged by exact minutes required. Eight minutes before a call still counts as a workout.</p>
+      </div>
+      <div class="how-item">
+        <div class="mark">03</div>
+        <h3>Progress without weights</h3>
+        <p>Each plan includes a harder variation, so the workout grows with you instead of needing a heavier dumbbell.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="gear">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2>If you ever want gear</h2>
+      <p class="sub">Optional. Everything above works with none of this — these just make it more comfortable.</p>
+    </div>
+    <div class="gear-grid reveal">
+      <div class="gcard">
+        <div class="thumb">Mat</div>
+        <h4>Non-slip exercise mat</h4>
+        <div class="price">Floor comfort</div>
+        <p class="note">Worth it once your floor is hardwood or tile, not before.</p>
+      </div>
+      <div class="gcard">
+        <div class="thumb">Bands</div>
+        <h4>Resistance band set</h4>
+        <div class="price">Adds load</div>
+        <p class="note">The single cheapest way to add resistance without weights.</p>
+      </div>
+      <div class="gcard">
+        <div class="thumb">Towel</div>
+        <h4>Sliding towel discs</h4>
+        <div class="price">Adds difficulty</div>
+        <p class="note">Turns bodyweight moves into real core and leg burners.</p>
+      </div>
+      <div class="gcard">
+        <div class="thumb">Timer</div>
+        <h4>Interval timer</h4>
+        <div class="price">Adds structure</div>
+        <p class="note">Useful once you outgrow counting reps in your head.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="signup reveal" id="signup">
+  <div class="wrap">
+    <h2>One new workout, every week.</h2>
+    <p>No spam, no upsells in your inbox — just the workout, ready to go.</p>
+    <form class="signup-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='Sent — check your inbox';">
+      <input type="email" placeholder="you@email.com" required aria-label="Email address">
+      <button type="submit">Send it free</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h5>Workouts</h5>
+        <a href="#workouts">Full body</a>
+        <a href="#workouts">Lower body</a>
+        <a href="#workouts">Upper body</a>
+        <a href="#workouts">Mobility</a>
+      </div>
+      <div class="footer-col">
+        <h5>Site</h5>
+        <a href="#how">How it works</a>
+        <a href="#gear">Gear guide</a>
+        <a href="#signup">Newsletter</a>
+      </div>
+      <div class="footer-col">
+        <h5>About</h5>
+        <a href="#">Our approach</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 No Gym Needed</span>
+      <span>Built for small spaces everywhere</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Scroll-triggered reveals — respects prefers-reduced-motion via CSS override above
+  const revealEls = document.querySelectorAll('.reveal, .reveal-stagger');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => io.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('is-visible'));
+  }
+</script>
+</body>
+</html>
